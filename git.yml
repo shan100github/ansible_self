@@ -1,0 +1,16 @@
+- hosts: all
+  gather_facts: False
+
+  tasks:
+  - name: Find git version
+    shell: git --version|cut -d ' ' -f3|cat
+    register: git_version
+
+  - debug: var=git_version.stdout
+
+  - name: Install a yum package in Ansible example
+    yum:
+      name: git
+      state: present
+    when: '"1.8.3.1" not in git_version.stdout'
+~                                                  
